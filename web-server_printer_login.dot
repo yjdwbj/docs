@@ -1,0 +1,42 @@
+
+digraph G {
+  rankdir="LR";
+	node[shape = "point",width=0,height=0];
+  edge[arrowhead="none",style="dashed"]
+
+
+
+  {
+		rank="same";
+    edge[style="solided"];
+    WEB[shape="plaintext",label="WEB服务器"];
+	  WEB -> step10 -> step11 -> step12 -> step13 -> step14 -> step15 -> step16 -> step17;
+	}
+
+  { 
+		rank="same";
+    edge[style="solided"];
+    AMQP[shape="plaintext"];
+	  AMQP -> step20 -> step21 -> step22 -> step23 -> step24 -> step25 -> step26 -> step27;
+	}
+
+  {
+		rank="same";
+    edge[style="solided"];
+    pr[shape="plaintext",label="打印机"];
+	  pr -> step30 -> step31 -> step32 -> step33 -> step34 -> step35 -> step36 -> step37;
+	}
+
+
+  step30 -> step20 [label="RPC登录消息",arrowhead="normal",color="red",style="solided"];
+  step21 -> step11 [label="推送RPC消息",arrowhead="normal",color="red",style="solided"];
+
+  step12 -> step22 [label="应答RPC消息,webtoken",arrowhead="normal",color="red",style="solided"];
+  step23 -> step33 [label="推送RPC消息",arrowhead="normal",color="red",style="solided"];
+  step34 -> step24 ;
+  step24 -> step14 [label="使用webtoken登录WEB",arrowhead="normal"];
+
+  step35 -> step25 [label="生产状态消息",arrowhead="normal"];
+ 
+}
+

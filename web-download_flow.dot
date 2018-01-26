@@ -1,0 +1,56 @@
+digraph G {
+  randir=LR
+  fontname = "Microsoft YaHei";
+  fontsize = 12;
+  node [fontname = "Microsoft YaHei", fontsize = 12, shape = "Mrecord", color="skyblue", style="filled"];
+  edge [fontname = "Microsoft YaHei", fontsize = 12, color="darkgreen",style="dashed"];
+
+  start [label="Start"];
+  part [label="Partial Content?",shape="diamond",fillcolor=yellow];
+  range [label="Content-Range"];
+  //run [label="执行下载"]
+  runret [label="Perform OK?",shape="diamond",fillcolor=yellow];
+  response [shape=Mrecord,label="<f1> 302|<f2>404|<f3>200|<f4>206"];
+  login [label="Login"];
+  runerr [label="Error"];
+  c200 [label="200 OK"];
+  c404 [label="404 Not Found"];
+  c206 [label="206 Partial Download"];
+  c302 [label="302 Redirect Auth Error"];
+  done [label="Done"];
+
+  start -> part;
+  part -> range [label="add Content-Range"];
+  part -> runret [label="perform"];
+  runret -> response [label="Response code"];
+  range -> runret [label="perform"];
+  runret -> runerr [label ="Error",color="red"];
+  runerr -> range [label="add Content-Range"];
+response:f3 -> c200;
+response:f4 -> c206;
+response:f2 -> c404 [color=red];
+response:f1 -> c302 [color=red];
+  c404 -> done;
+  c302 -> login ;
+  login -> runret [label="perform"];
+  c200 -> done;
+  c206 -> done;
+
+
+  //pc  [label="PC端",style="filled",color="gray"];
+  //WEB [label="WEB服务器",style="filled",color="darkgreen"];
+  //AMQP [label="AMQP",style="filled",color="red"];
+
+
+  //pc -> WEB [label="上传打印"];
+  //WEB -> AMQP [label="打印消息",style="solided",color="red"];
+  //AMQP -> pr [label="推送打印消息",style="solided",color="red"];
+  //pr -> WEB [label="下载打印"];
+  //pr -> WEB [label="上传凭证"];
+  //WEB -> AMQP [label="凭证消息",style="solided",color="red"];
+  //AMQP -> pc [label="推送凭证消息",style="solided",color="red"];
+  //pc -> WEB [label="下载凭证"];
+
+
+}
+

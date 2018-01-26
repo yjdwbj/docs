@@ -1,0 +1,24 @@
+digraph module_lc{
+  fontname = "Microsoft YaHei";
+  fontsize = 12;
+  node [fontname = "Microsoft YaHei", fontsize = 12, shape = "Mrecord", color="skyblue", style="filled"];
+  edge [fontname = "Microsoft YaHei", fontsize = 12, color="darkgreen",style="dashed"];
+
+  pr [label="printer"];
+  pc  [label="PC端",style="filled",color="gray"];
+  WEB [label="WEB服务器",style="filled",color="darkgreen"];
+  AMQP [label="AMQP",style="filled",color="red"];
+
+
+  pc -> WEB [label="上传打印"];
+  WEB -> AMQP [label="打印消息",style="solided",color="red"];
+  AMQP -> pr [label="推送打印消息",style="solided",color="red"];
+  pr -> WEB [label="下载打印"];
+  pr -> WEB [label="上传凭证"];
+  WEB -> AMQP [label="凭证消息",style="solided",color="red"];
+  AMQP -> pc [label="推送凭证消息",style="solided",color="red"];
+  pc -> WEB [label="下载凭证"];
+
+
+}
+
